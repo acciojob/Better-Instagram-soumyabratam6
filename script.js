@@ -5,9 +5,11 @@ var images = document.querySelectorAll('.image');
 var draggedElement = null;
 
 images.forEach(function(image) {
+	image.setAttribute('draggable', true);
   image.addEventListener('dragstart', function(event) {
-    draggedElement = event.target;
-    event.target.classList.add('selected');
+      draggedElement = event.target;
+	  event.dataTransfer.setData('text', event.target.id);
+     event.target.classList.add('selected');
   });
 });
 
@@ -16,6 +18,7 @@ document.getElementById('parent').addEventListener('dragover', function(event) {
 });
 document.getElementById('parent').addEventListener('drop', function(event) {
   event.preventDefault();
+	var id = event.dataTransfer.getData('text');
   if (draggedElement) {
     var tempBackground = draggedElement.style.backgroundImage;
     draggedElement.style.backgroundImage = event.target.style.backgroundImage;
