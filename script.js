@@ -18,14 +18,13 @@ images.forEach(function(image) {
 	});
 
 	image.addEventListener('drop', function(event) {
-  		event.preventDefault();
-		var id = event.dataTransfer.getData('text');
-  		if (draggedElement) {
-    		var tempBackground = draggedElement.style.backgroundImage;
-			  draggedElement.style.backgroundImage = event.target.style.backgroundImage;
-			  event.target.style.backgroundImage = tempBackground;
-			  draggedElement.classList.remove('selected');
-			  draggedElement = null;
-  		}
+  		 event.preventDefault();
+		  if (draggedElement) {
+		    var tempBackground = draggedElement.style.backgroundImage;
+		    draggedElement.style.backgroundImage = event.target.style.backgroundImage;
+		    event.target.style.backgroundImage = tempBackground;
+		    draggedElement.classList.remove('selected');
+		    draggedElement = null;
+		  }
 	});  
 });
