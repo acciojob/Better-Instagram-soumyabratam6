@@ -20,11 +20,11 @@ images.forEach(function(image) {
   		event.preventDefault();
 		var id = event.dataTransfer.getData('text');
   		if (draggedElement) {
-    		var tempInnerText = draggedElement.innerText;
-            draggedElement.innerText = event.target.innerText;
-            event.target.innerText = tempInnerText;
-    		draggedElement.classList.remove('selected');
-    		draggedElement = null;
+    		var tempBackground = draggedElement.style.backgroundImage;
+  draggedElement.style.backgroundImage = event.target.style.backgroundImage;
+  event.target.style.backgroundImage = tempBackground;
+  draggedElement.classList.remove('selected');
+  draggedElement = null;
   		}
 	});  
 });
