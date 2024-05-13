@@ -14,6 +14,7 @@ images.forEach(function(image) {
 
   	image.addEventListener('dragover', function(event) {
   		event.preventDefault();
+		event.dataTransfer.dropEffect = 'move'; 
 	});
 
 	image.addEventListener('drop', function(event) {
@@ -21,10 +22,10 @@ images.forEach(function(image) {
 		var id = event.dataTransfer.getData('text');
   		if (draggedElement) {
     		var tempBackground = draggedElement.style.backgroundImage;
-  draggedElement.style.backgroundImage = event.target.style.backgroundImage;
-  event.target.style.backgroundImage = tempBackground;
-  draggedElement.classList.remove('selected');
-  draggedElement = null;
+			  draggedElement.style.backgroundImage = event.target.style.backgroundImage;
+			  event.target.style.backgroundImage = tempBackground;
+			  draggedElement.classList.remove('selected');
+			  draggedElement = null;
   		}
 	});  
 });
