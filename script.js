@@ -17,15 +17,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function drop(event) {
     event.preventDefault();
-    const draggedId = event.dataTransfer.getData('text');
-    const draggedElement = document.getElementById(draggedId);
-    const targetElement = event.target;
-
-    if (draggedElement !== targetElement) {
-      // Swap background images
-      const tempBackground = targetElement.style.backgroundImage;
-      targetElement.style.backgroundImage = draggedElement.style.backgroundImage;
-      draggedElement.style.backgroundImage = tempBackground;
-    }
+  var draggedId = event.dataTransfer.getData('text/plain');
+  var draggedElement = document.getElementById(draggedId);
+  var targetElement = event.target;
+  
+  if (draggedElement && targetElement && draggedElement !== targetElement && targetElement.classList.contains('draggable')) {
+    var clonedDragged = draggedElement.cloneNode(true);
+    var clonedTarget = targetElement.cloneNode(true);
+    
+    targetElement.replaceWith(clonedDragged);
+    draggedElement.replaceWith(clonedTarget);
+    
+    clonedDragged.addEventListener('dragstart', dragStart);
+    clonedDragged.addEventListener('dragover', dragOver);
+    clonedDragged.addEventListener('drop', drop);
+    
+    clonedTarget.addEventListener('dragstart', dragStart);
+    clonedTarget.addEventListener('dragover', dragOver);
+    clonedTarget.addEventListener('drop', drop);
+  }
   }
 });
