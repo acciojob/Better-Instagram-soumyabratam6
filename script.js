@@ -1,40 +1,32 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const divs = document.querySelectorAll('.draggable');
+let dragged;
 
-  divs.forEach(div => {
-    div.addEventListener('dragstart', dragStart);
-    div.addEventListener('dragover', dragOver);
-    div.addEventListener('drop', drop);
-  });
+/* events fired on the draggable target */
+document.addEventListener("dragstart", function(event) {
+  // store a ref. on the dragged elem
+  dragged = event.target;
+  // make it half transparent
+  event.target.style.opacity = .5;
+}, false);
+document.addEventListener("dragend", function(event) {
+  // reset the transparency
+  event.target.style.opacity = "";
+}, false);
 
-  function dragStart(event) {
-    event.dataTransfer.setData('text/plain', event.target.id);
-  }
+/* events fired on the drop targets */
+document.addEventListener("dragover", function(event) {
+  // prevent default to allow drop
+  event.preventDefault();
+}, false);
 
-  function dragOver(event) {
-    event.preventDefault();
+document.addEventListener("drop", function(event) {
+  // prevent default action (open as link for some elements)
+  event.preventDefault();
+  // move dragged elem to the selected drop target
+  if (event.target.className == "dropzone") {
+    event.target.style.background = "";
+    // swap data
+    let temp = event.target.innerHTML;
+    event.target.innerHTML = dragged.innerHTML;
+    dragged.innerHTML = temp;
   }
-
-  function drop(event) {
-    event.preventDefault();
-  var draggedId = event.dataTransfer.getData('text/plain');
-  var draggedElement = document.getElementById(draggedId);
-  var targetElement = event.target;
-  
-  if (draggedElement && targetElement && draggedElement !== targetElement && targetElement.classList.contains('draggable')) {
-    var clonedDragged = draggedElement.cloneNode(true);
-    var clonedTarget = targetElement.cloneNode(true);
-    
-    targetElement.replaceWith(clonedDragged);
-    draggedElement.replaceWith(clonedTarget);
-    
-    clonedDragged.addEventListener('dragstart', dragStart);
-    clonedDragged.addEventListener('dragover', dragOver);
-    clonedDragged.addEventListener('drop', drop);
-    
-    clonedTarget.addEventListener('dragstart', dragStart);
-    clonedTarget.addEventListener('dragover', dragOver);
-    clonedTarget.addEventListener('drop', drop);
-  }
-  }
-});
+}, false);
